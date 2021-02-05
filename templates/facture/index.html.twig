@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture index{% endblock %}
+
+{% block body %}
+    <h1>Facture index</h1>
+    <a href="{{ path('facture_new') }}">Create new</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date_facture</th>
+                <th>Montant</th>
+                <th>Payee</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for facture in factures %}
+            <tr>
+                <td>{{ facture.id }}</td>
+                <td>{{ facture.dateFacture ? facture.dateFacture|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ facture.montant }}</td>
+                <td>{{ facture.payee }}</td>
+                <td>
+                    <a href="{{ path('facture_show', {'id': facture.id}) }}">show</a>
+                    <a href="{{ path('facture_edit', {'id': facture.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<div class="row">
+                <div class="col s12">
+                       <h5>Statiques</h5>
+
+<table class="table">
+    <tr>
+                    <th>Nombres de facture impayée </th>
+{% set i = 0 %} 
+                        {% for facture in factures %}
+                        <td>    {%if facture.payee==0%} </td>
+                                                {% set i= i+1 %}
+
+                                                             {%endif%}
+                        {%endfor%}
+                          </tr>
+                        <td>   {{ i }}        </td>   
+
+
+
+
+
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
+{% endblock %}

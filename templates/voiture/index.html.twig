@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voiture index{% endblock %}
+
+{% block body %}
+    <h1>Voiture index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Matricule</th>
+                <th>Marque</th>
+                <th>Couleur</th>
+                <th>Carburant</th>
+                <th>Nbr_place</th>
+                <th>Description</th>
+                <th>Disponibilite</th>
+                <th>Date_circulation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for voiture in voitures %}
+            <tr>
+                <td>{{ voiture.id }}</td>
+                <td>{{ voiture.Matricule }}</td>
+                <td>{{ voiture.Marque }}</td>
+                <td>{{ voiture.Couleur }}</td>
+                <td>{{ voiture.Carburant }}</td>
+                <td>{{ voiture.NbrPlace }}</td>
+                <td>{{ voiture.Description }}</td>
+                <td>{{ voiture.Disponibilite }}</td>
+                <td>{{ voiture.DateCirculation ? voiture.DateCirculation|date('Y-m-d') : '' }}</td>
+                <td>
+                    
+                    <a href="{{ path('voiture_louer', {'id': voiture.id}) }}">Louer</a>
+                    <a href="{{ path('voiture_rendre', {'id': voiture.id}) }}">Rendre</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('voiture_new') }}">Create new</a>
+
+    <div class="row">
+                <div class="col s12">
+                       <h5>Statiques</h5>
+
+<table class="table">
+                    <tr>
+                    <th>Nombres de voitures disponibles</th>
+                
+                     
+ {% set i = 0 %}
+                        {% for voiture in voitures %}
+                         
+                             <td>  {%if voiture.disponibilite==1%}   </td>
+                                                {% set i = i+1 %}
+                                     {%endif%}
+                        {%endfor%}
+                        </tr>
+                        <td>   {{ i }}        </td>   
+
+                    <tr>
+                    <th>Nombres de voitures à rendre</th>
+{% set j = 0 %} 
+                        {% for voiture in voitures %}
+                        <td>    {%if voiture.disponibilite==0%} </td>
+                                                {% set j= j+1 %}
+
+                                                             {%endif%}
+                        {%endfor%}
+                          </tr>
+                          <td>{{ j }}</td>
+                          </div>
+                          </div>
+                          </table>
+{% endblock %}
